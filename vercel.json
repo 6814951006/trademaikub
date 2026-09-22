@@ -1,0 +1,10 @@
+{
+  "framework": null,
+  "installCommand": "npm install --prefix SEVER && npm install --include=dev --prefix Client",
+  "buildCommand": "npm run build --prefix Client",
+  "outputDirectory": "Client/dist",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
