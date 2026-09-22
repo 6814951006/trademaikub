@@ -1,6 +1,15 @@
 const Seller = require("../models/seller.model");
 const Review = require("../models/review.model");
 const Product = require("../models/product.model");
+const { put } = require("@vercel/blob");
+
+const allowedImageTypes = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+]);
+const maximumImageSize = 4 * 1024 * 1024;
 
 const numericRating = (value) =>
   Number.isInteger(Number(value)) && Number(value) >= 1 && Number(value) <= 5;
@@ -239,6 +248,52 @@ const addProduct = async (req, res, next) => {
   }
 };
 
+const uploadProductImage = async (req, res, next) => {
+  try {
+    const seller = await Seller.findOne({
+      userId: req.user.sub,
+      status: "approved",
+    });
+    if (!seller) {
+      return res
+        .status(403)
+        .json({ message: "An approved seller account is required" });
+    }
+
+    const contentType = (req.get("content-type") || "")
+      .split(";")[0]
+      .toLowerCase();
+    if (!allowedImageTypes.has(contentType)) {
+      return res.status(400).json({
+        message: "Only JPEG, PNG, WebP, and GIF images are supported",
+      });
+    }
+    if (!Buffer.isBuffer(req.body) || req.body.length === 0) {
+      return res.status(400).json({ message: "An image file is required" });
+    }
+    if (req.body.length > maximumImageSize) {
+      return res.status(413).json({ message: "Image must be 4 MB or smaller" });
+    }
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      return res.status(503).json({ message: "File storage unavailable" });
+    }
+
+    const originalName = req.get("x-file-name") || "product-image";
+    const safeName = originalName
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]/g, "-")
+      .replace(/-+/g, "-");
+    const blob = await put(
+      `products/${req.user.sub}/${Date.now()}-${safeName || "image"}`,
+      req.body,
+      { access: "public", contentType },
+    );
+    return res.status(201).json({ url: blob.url, pathname: blob.pathname });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   apply,
   getMine,
@@ -247,4 +302,5 @@ module.exports = {
   addReview,
   approve,
   addProduct,
+  uploadProductImage,
 };

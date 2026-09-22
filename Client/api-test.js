@@ -12,7 +12,9 @@ if (user.role !== "admin") {
 }
 const API_BASE_URL = (
   window.LOGIN_API_BASE_URL ||
-  `${window.location.protocol}//${window.location.hostname}:5000`
+  (["localhost", "127.0.0.1"].includes(window.location.hostname)
+    ? `${window.location.protocol}//${window.location.hostname}:5000`
+    : window.location.origin)
 ).replace(/\/$/, "");
 const headers = { Authorization: `Bearer ${token}` };
 const jsonHeaders = { ...headers, "Content-Type": "application/json" };

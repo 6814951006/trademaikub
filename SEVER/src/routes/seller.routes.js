@@ -8,6 +8,7 @@ const {
   addReview,
   approve,
   addProduct,
+  uploadProductImage,
 } = require("../controllers/seller.controller");
 
 const router = express.Router();
@@ -15,6 +16,12 @@ router.get("/store/:username", getStore);
 router.get("/products", listProducts);
 router.post("/apply", authenticate, apply);
 router.get("/mine", authenticate, getMine);
+router.post(
+  "/uploads/product-image",
+  authenticate,
+  express.raw({ type: ["image/jpeg", "image/png", "image/webp", "image/gif"], limit: "4mb" }),
+  uploadProductImage,
+);
 router.post("/products", authenticate, addProduct);
 router.post("/store/:username/reviews", authenticate, addReview);
 router.patch("/applications/:id/approve", authenticate, (req, res, next) => {

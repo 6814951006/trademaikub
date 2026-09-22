@@ -9,7 +9,9 @@ if (!token || !userValue) window.location.replace("./index.html");
 const user = JSON.parse(userValue);
 const API_BASE_URL = (
   window.LOGIN_API_BASE_URL ||
-  `${window.location.protocol}//${window.location.hostname}:5000`
+  (["localhost", "127.0.0.1"].includes(window.location.hostname)
+    ? `${window.location.protocol}//${window.location.hostname}:5000`
+    : window.location.origin)
 ).replace(/\/$/, "");
 const authHeaders = { Authorization: `Bearer ${token}` };
 const jsonAuthHeaders = { ...authHeaders, "Content-Type": "application/json" };
@@ -200,12 +202,36 @@ document.addEventListener("submit", async (event) => {
 });
 $("#product-form").addEventListener("submit", async (event) => {
   event.preventDefault();
+  const imageFile = $("#product-image").files[0];
+  let image = "";
+  if (imageFile) {
+    $("#product-status").textContent = "Uploading image...";
+    const uploadResponse = await fetch(
+      `${API_BASE_URL}/api/sellers/uploads/product-image`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": imageFile.type,
+          "X-File-Name": imageFile.name,
+        },
+        body: imageFile,
+      },
+    );
+    const upload = await uploadResponse.json().catch(() => ({}));
+    if (!uploadResponse.ok) {
+      $("#product-status").textContent =
+        upload.message || "Unable to upload image.";
+      return;
+    }
+    image = upload.url;
+  }
   const body = {
     name: $("#product-name").value,
     category: $("#product-category").value,
     price: $("#product-price").value,
     stock: $("#product-stock").value,
-    image: $("#product-image").value,
+    image,
     description: $("#product-description").value,
   };
   const response = await fetch(`${API_BASE_URL}/api/sellers/products`, {
