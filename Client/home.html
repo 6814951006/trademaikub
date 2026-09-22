@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#17251f" />
+    <title>Trade Mai Kub | Marketplace</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="marketplace-page">
+    <main class="marketplace-shell">
+      <nav class="marketplace-nav" aria-label="Main navigation">
+        <a class="store-brand" href="#top"
+          ><span class="brand-mark">TMK</span><span>Trade Mai Kub</span></a
+        >
+        <div class="marketplace-links">
+          <a href="#listings">Marketplace</a
+          ><a href="./seller.html">Sell with us</a
+          ><a id="api-test-link" href="./api-test.html">API test</a
+          ><a href="#my-activity">My activity</a><a href="#contact">Contact</a>
+        </div>
+        <div class="nav-actions">
+          <button class="cart-button" id="cart-button" type="button">
+            Cart <span id="cart-count">0</span></button
+          ><span class="user-chip" id="user-name">-</span
+          ><button class="logout-button" id="logout-button" type="button">
+            Sign out
+          </button>
+        </div>
+      </nav>
+
+      <section class="marketplace-hero" id="top">
+        <div>
+          <p class="eyebrow">Buy, sell, or trade</p>
+          <h1>Your local market, made more flexible.</h1>
+          <p>
+            Discover good products from real people. Buy what you need, or trade
+            something you own instead.
+          </p>
+          <a class="primary-action" href="#listings">Explore listings</a>
+        </div>
+        <div class="hero-market-card">
+          <span>Today's marketplace</span><strong>1,248</strong
+          ><small>active listings from the community</small>
+          <div class="hero-market-line">
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+      </section>
+
+      <section class="marketplace-toolbar" id="listings">
+        <div>
+          <p class="eyebrow">Community marketplace</p>
+          <h2>Find your next thing</h2>
+        </div>
+        <div class="marketplace-tools">
+          <label class="search-box"
+            ><span class="sr-only">Search listings</span
+            ><input
+              id="listing-search"
+              type="search"
+              placeholder="Search products" /></label
+          ><select id="listing-filter" aria-label="Filter listings">
+            <option value="all">All categories</option>
+            <option value="electronics">Electronics</option>
+            <option value="collectibles">Collectibles</option>
+            <option value="lifestyle">Lifestyle</option>
+          </select>
+        </div>
+      </section>
+      <div class="listing-grid marketplace-grid" id="listing-grid"></div>
+      <p class="empty-state" id="empty-state" hidden>
+        No listings match your search.
+      </p>
+
+      <section class="activity-section" id="my-activity">
+        <div>
+          <p class="eyebrow">Your activity</p>
+          <h2>Buying and trading in one place</h2>
+          <p>Track the items you bought and every trade offer you have sent.</p>
+        </div>
+        <div class="activity-links">
+          <a href="#cart-button"
+            >Cart <strong id="activity-cart-count">0</strong></a
+          ><a href="#activity-orders"
+            >Trade offers <strong id="activity-offers-count">0</strong></a
+          >
+        </div>
+      </section>
+      <section class="contact-section" id="contact">
+        <div class="contact-intro">
+          <p class="eyebrow">Community support</p>
+          <h2>Need help with a listing?</h2>
+          <p>
+            Contact us about a product, purchase, trade offer, or safety
+            concern.
+          </p>
+          <div class="contact-details">
+            <a href="mailto:hello@trademaikub.com">hello@trademaikub.com</a
+            ><a href="tel:+6621234567">+66 2 123 4567</a
+            ><span>Mon-Fri, 09:00-18:00 ICT</span>
+          </div>
+        </div>
+        <form class="contact-form" id="contact-form">
+          <label for="contact-name">Your name</label
+          ><input id="contact-name" required /><label for="contact-message"
+            >How can we help?</label
+          ><textarea id="contact-message" rows="4" required></textarea
+          ><button class="primary-action" type="submit">Contact support</button>
+          <p class="contact-status" id="contact-status" role="status"></p>
+        </form>
+      </section>
+      <footer class="store-footer">
+        <span>Trade Mai Kub</span
+        ><span>Buy what you need. Trade what you have.</span>
+      </footer>
+    </main>
+
+    <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+      <div class="cart-header">
+        <h2>Your cart</h2>
+        <button
+          class="drawer-close"
+          id="cart-close"
+          type="button"
+          aria-label="Close cart"
+        >
+          ×
+        </button>
+      </div>
+      <div class="cart-items" id="cart-items"></div>
+      <div class="cart-footer">
+        <span>Total</span><strong id="cart-total">฿0</strong
+        ><button class="primary-action" id="checkout-button" type="button">
+          Buy now
+        </button>
+      </div>
+    </aside>
+    <dialog class="product-dialog" id="product-dialog">
+      <div class="product-detail" id="product-detail"></div>
+      <button
+        class="drawer-close product-dialog-close"
+        id="product-dialog-close"
+        type="button"
+        aria-label="Close product details"
+      >
+        ×
+      </button>
+    </dialog>
+    <dialog class="trade-dialog" id="trade-dialog">
+      <form method="dialog" id="trade-form">
+        <div class="dialog-header">
+          <div>
+            <p class="eyebrow">Trade instead of buy</p>
+            <h2 id="trade-title">-</h2>
+          </div>
+          <button
+            class="drawer-close"
+            value="cancel"
+            aria-label="Close trade form"
+          >
+            ×
+          </button>
+        </div>
+        <p class="dialog-help">
+          Offer an item or value to the owner instead of paying the listed
+          price.
+        </p>
+        <label for="trade-offer">What do you offer?</label
+        ><input
+          id="trade-offer"
+          placeholder="e.g. iPad Air or ฿5,000"
+          required
+        /><label for="trade-note">Message to owner</label
+        ><textarea
+          id="trade-note"
+          rows="3"
+          placeholder="Tell the owner about your offer"
+        ></textarea>
+        <p class="dialog-status" id="trade-status"></p>
+        <button class="primary-action" value="submit">Send trade offer</button>
+      </form>
+    </dialog>
+    <script src="./home.js"></script>
+  </body>
+</html>

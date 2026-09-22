@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#17251f" />
+    <title>Trade Mai Kub | Trade Desk</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="dashboard-page">
+    <main class="trade-shell">
+      <nav class="trade-nav" aria-label="Main navigation">
+        <a class="store-brand" href="#top"
+          ><span class="brand-mark">TMK</span><span>Trade Mai Kub</span></a
+        >
+        <div class="trade-links">
+          <a href="#market">Market</a><a href="#my-orders">My trades</a
+          ><a href="#contact">Contact</a>
+        </div>
+        <div class="nav-actions">
+          <span class="user-chip" id="user-name">-</span
+          ><button class="logout-button" id="logout-button" type="button">
+            Sign out
+          </button>
+        </div>
+      </nav>
+
+      <section class="trade-hero" id="top">
+        <div>
+          <p class="eyebrow">Trade desk / live workspace</p>
+          <h1>Trade with intent.</h1>
+          <p>
+            Find products available for trade, place an offer, and keep every
+            deal in one clear view.
+          </p>
+          <a class="primary-action" href="#market">View trade market</a>
+        </div>
+        <div class="market-pulse">
+          <span class="pulse-dot"></span><span>Market open</span
+          ><strong>24</strong><small>active listings</small>
+        </div>
+      </section>
+
+      <section class="trade-stats" aria-label="Trade summary">
+        <div><span>Available listings</span><strong>24</strong></div>
+        <div><span>Open offers</span><strong id="open-offers">0</strong></div>
+        <div><span>Completed trades</span><strong>0</strong></div>
+        <div><span>Wallet value</span><strong>฿0</strong></div>
+      </section>
+
+      <section class="market-section" id="market">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Trade market</p>
+            <h2>Open listings</h2>
+          </div>
+          <div class="shop-tools">
+            <label class="search-box"
+              ><span class="sr-only">Search listings</span
+              ><input
+                id="listing-search"
+                type="search"
+                placeholder="Search listings" /></label
+            ><select id="listing-filter" aria-label="Filter listings">
+              <option value="all">All items</option>
+              <option value="electronics">Electronics</option>
+              <option value="collectibles">Collectibles</option>
+              <option value="lifestyle">Lifestyle</option>
+            </select>
+          </div>
+        </div>
+        <div class="listing-grid" id="listing-grid"></div>
+      </section>
+
+      <section class="orders-section" id="my-orders">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Activity</p>
+            <h2>My trade offers</h2>
+          </div>
+          <span class="status-pill">All activity</span>
+        </div>
+        <div class="orders-table" id="orders-table">
+          <div class="order-row order-heading">
+            <span>Item</span><span>Side</span><span>Price</span
+            ><span>Amount</span><span>Status</span>
+          </div>
+          <p class="empty-orders" id="empty-orders">
+            You have not placed any trade offers yet.
+          </p>
+        </div>
+      </section>
+      + +
+      <section class="contact-section" id="contact">
+        <div class="contact-intro">
+          <p class="eyebrow">Trade support</p>
+          <h2>Need help with a deal?</h2>
+          <p>
+            Ask about an item, a trade offer, or a problem with an existing
+            transaction.
+          </p>
+          <div class="contact-details">
+            <a href="mailto:trade@trademaikub.com">trade@trademaikub.com</a
+            ><a href="tel:+6621234567">+66 2 123 4567</a
+            ><span>Mon-Fri, 09:00-18:00 ICT</span>
+          </div>
+        </div>
+        <form class="contact-form" id="contact-form">
+          <label for="contact-name">Your name</label
+          ><input id="contact-name" required /><label for="contact-message"
+            >How can we help?</label
+          ><textarea id="contact-message" rows="4" required></textarea
+          ><button class="primary-action" type="submit">Contact support</button>
+          <p class="contact-status" id="contact-status" role="status"></p>
+        </form>
+      </section>
+      +
+      <footer class="store-footer">
+        <span>Trade Mai Kub</span><span>Trade clearly. Move confidently.</span>
+      </footer>
+      +
+    </main>
+    + +
+    <dialog class="trade-dialog" id="trade-dialog">
+      <form method="dialog" id="trade-form">
+        <div class="dialog-header">
+          <div>
+            <p class="eyebrow">Place trade offer</p>
+            <h2 id="dialog-title">-</h2>
+          </div>
+          <button
+            class="drawer-close"
+            value="cancel"
+            aria-label="Close trade form"
+          >
+            ×
+          </button>
+        </div>
+        <label for="trade-side">Side</label
+        ><select id="trade-side">
+          <option value="buy">Buy</option>
+          <option value="sell">Sell</option></select
+        ><label for="trade-type">Order type</label
+        ><select id="trade-type">
+          <option value="limit">Limit</option>
+          <option value="market">Market</option></select
+        ><label for="trade-price">Price (THB)</label
+        ><input
+          id="trade-price"
+          type="number"
+          min="1"
+          step="0.01"
+          required
+        /><label for="trade-amount">Amount</label
+        ><input id="trade-amount" type="number" min="1" step="1" required />
+        <p class="dialog-status" id="dialog-status"></p>
+        <button class="primary-action" value="submit">Place offer</button>
+      </form>
+    </dialog>
+    +
+    <script src="./dashboard.js"></script>
+    +
+  </body>
+  +
+</html>

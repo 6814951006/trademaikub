@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trade Mai Kub | Seller centre</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="marketplace-page seller-page">
+    <main class="marketplace-shell seller-shell">
+      <nav class="marketplace-nav" aria-label="Main navigation">
+        <a class="store-brand" href="./home.html"
+          ><span class="brand-mark">TMK</span><span>Trade Mai Kub</span></a
+        >
+        <div class="marketplace-links">
+          <a href="./home.html">Marketplace</a><a href="#store">My store</a>
+        </div>
+        <div class="nav-actions">
+          <span class="user-chip" id="user-name">-</span
+          ><button class="logout-button" id="logout-button" type="button">
+            Sign out
+          </button>
+        </div>
+      </nav>
+      <section class="seller-intro">
+        <div>
+          <p class="eyebrow">Seller centre</p>
+          <h1>Open a store people can trust.</h1>
+          <p>
+            Register separately as a seller so customers know your identity has
+            been checked.
+          </p>
+        </div>
+        <div class="seller-trust">
+          <strong>4</strong><span>rating dimensions</span
+          ><small>Product, delivery, condition, chat</small>
+        </div>
+      </section>
+      <section class="seller-panel" id="application-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Verification</p>
+            <h2>Seller registration</h2>
+          </div>
+          <span class="status-pill pending">Identity review</span>
+        </div>
+        <p class="seller-help">
+          Your store stays private until an admin reviews the information below.
+        </p>
+        <form id="seller-form" class="seller-form">
+          <label for="store-name">Store name</label
+          ><input
+            id="store-name"
+            required
+            maxlength="80"
+            placeholder="e.g. Makkystore"
+          /><label for="seller-phone">Phone number</label
+          ><input
+            id="seller-phone"
+            required
+            maxlength="30"
+            placeholder="08x-xxx-xxxx"
+          /><label for="identity-number">National ID / passport number</label
+          ><input
+            id="identity-number"
+            required
+            maxlength="40"
+            autocomplete="off"
+          /><label for="identity-document">Identity document reference</label
+          ><input
+            id="identity-document"
+            required
+            maxlength="200"
+            placeholder="Secure document URL or reference number"
+          /><label for="store-description">About your store</label
+          ><textarea
+            id="store-description"
+            rows="4"
+            maxlength="500"
+            placeholder="What do you sell?"
+          ></textarea>
+          <p class="seller-status" id="seller-status" role="status"></p>
+          <button class="primary-action" type="submit">
+            Submit for verification
+          </button>
+        </form>
+      </section>
+      <section class="seller-panel store-preview" id="store-panel" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Approved storefront</p>
+            <h2 id="store-name-display">-</h2>
+            <p id="store-description-display">-</p>
+          </div>
+          <span class="status-pill" id="store-status">Approved</span>
+        </div>
+        <form class="product-form" id="product-form">
+          <h3>Add a product</h3>
+          <div class="product-form-grid">
+            <input
+              id="product-name"
+              required
+              placeholder="Product name"
+            /><input
+              id="product-category"
+              required
+              placeholder="Category"
+            /><input
+              id="product-price"
+              type="number"
+              min="0"
+              required
+              placeholder="Price (THB)"
+            /><input
+              id="product-stock"
+              type="number"
+              min="0"
+              required
+              placeholder="Stock"
+            /><input id="product-image" placeholder="Image URL (optional)" />
+          </div>
+          <textarea
+            id="product-description"
+            rows="2"
+            placeholder="Product description"
+          ></textarea
+          ><button class="primary-action" type="submit">Add product</button>
+          <p class="seller-status" id="product-status" role="status"></p>
+        </form>
+        <div class="seller-products" id="seller-products"></div>
+        <div class="overall-row">
+          <div>
+            <span class="overall-number" id="overall-score">0.0</span
+            ><span class="stars" id="overall-stars">★★★★★</span
+            ><small id="review-count">0 reviews</small>
+          </div>
+          <button class="primary-action" id="toggle-ratings" type="button">
+            View rating details
+          </button>
+        </div>
+        <div class="rating-breakdown" id="rating-breakdown" hidden></div>
+        <div class="review-list" id="review-list"></div>
+        <form class="review-form" id="review-form">
+          <h3>Rate this store</h3>
+          <div class="rating-inputs">
+            <label
+              >Product
+              <select id="product-rating">
+                <option>5</option>
+                <option>4</option>
+                <option>3</option>
+                <option>2</option>
+                <option>1</option>
+              </select></label
+            ><label
+              >Delivery time
+              <select id="shipping-rating">
+                <option>5</option>
+                <option>4</option>
+                <option>3</option>
+                <option>2</option>
+                <option>1</option>
+              </select></label
+            ><label
+              >Condition
+              <select id="condition-rating">
+                <option>5</option>
+                <option>4</option>
+                <option>3</option>
+                <option>2</option>
+                <option>1</option>
+              </select></label
+            ><label
+              >Chat response
+              <select id="communication-rating">
+                <option>5</option>
+                <option>4</option>
+                <option>3</option>
+                <option>2</option>
+                <option>1</option>
+              </select></label
+            >
+          </div>
+          <textarea
+            id="review-comment"
+            rows="3"
+            maxlength="500"
+            placeholder="Tell other buyers about your experience"
+          ></textarea
+          ><button class="primary-action" type="submit">Submit review</button>
+          <p class="seller-status" id="review-status" role="status"></p>
+        </form>
+      </section>
+      <p class="seller-status" id="page-status" role="status"></p>
+    </main>
+    <script src="./seller.js"></script>
+  </body>
+</html>

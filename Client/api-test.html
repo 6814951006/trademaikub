@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trade Mai Kub | API Test</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="marketplace-page api-test-page">
+    <main class="marketplace-shell">
+      <nav class="marketplace-nav">
+        <a class="store-brand" href="./home.html"
+          ><span class="brand-mark">TMK</span><span>Trade Mai Kub</span></a
+        >
+        <div class="marketplace-links">
+          <a href="./home.html">Marketplace</a
+          ><a href="./seller.html">My store</a>
+        </div>
+        <div class="nav-actions">
+          <span class="user-chip" id="user-name">-</span
+          ><button class="logout-button" id="logout-button" type="button">
+            Sign out
+          </button>
+        </div>
+      </nav>
+      <section class="seller-intro">
+        <div>
+          <p class="eyebrow">Developer workspace</p>
+          <h1>Test the trade APIs.</h1>
+          <p>
+            Run the real marketplace requests from the browser and inspect each
+            response.
+          </p>
+        </div>
+        <div class="seller-trust">
+          <strong id="test-count">0</strong><span>tests run</span
+          ><small id="api-status">Ready</small>
+        </div>
+      </section>
+      <section class="api-test-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">API runner</p>
+            <h2>Marketplace flow</h2>
+          </div>
+          <button class="primary-action" id="run-all" type="button">
+            Run all tests
+          </button>
+        </div>
+        <div class="api-test-grid">
+          <button data-test="products" type="button">
+            <strong>1</strong><span>Load products</span></button
+          ><button data-test="deal" type="button">
+            <strong>2</strong><span>Create trade request</span></button
+          ><button data-test="conversation" type="button">
+            <strong>3</strong><span>Open conversation</span></button
+          ><button data-test="message" type="button">
+            <strong>4</strong><span>Send chat message</span>
+          </button>
+        </div>
+        <div class="api-output" id="api-output">
+          <p>Select a test to see the API response.</p>
+        </div>
+      </section>
+    </main>
+    <script src="./api-test.js"></script>
+  </body>
+</html>
