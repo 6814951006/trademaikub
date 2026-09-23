@@ -100,6 +100,20 @@ const getMine = async (req, res, next) => {
   }
 };
 
+const listApplications = async (req, res, next) => {
+  try {
+    const applications = await Seller.find({ status: "pending" })
+      .select(
+        "storeName phone identityNumber identityDocument description status createdAt",
+      )
+      .populate("userId", "username email")
+      .sort({ createdAt: 1 });
+    return res.json(applications);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const getStore = async (req, res, next) => {
   try {
     const seller = await Seller.findOne({ status: "approved" }).populate(
@@ -192,7 +206,7 @@ const addReview = async (req, res, next) => {
 const approve = async (req, res, next) => {
   try {
     const seller = await Seller.findByIdAndUpdate(
-      req.params.id,
+      { _id: req.params.id, status: "pending" },
       { status: "approved", rejectionReason: "" },
       { returnDocument: "after" },
     );
@@ -274,7 +288,7 @@ const uploadProductImage = async (req, res, next) => {
     if (req.body.length > maximumImageSize) {
       return res.status(413).json({ message: "Image must be 4 MB or smaller" });
     }
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    if (!process.env.BLOB_READ_WRITE_TOKEN && !process.env.VERCEL_OIDC_TOKEN) {
       return res.status(503).json({ message: "File storage unavailable" });
     }
 
@@ -297,6 +311,7 @@ const uploadProductImage = async (req, res, next) => {
 module.exports = {
   apply,
   getMine,
+  listApplications,
   getStore,
   listProducts,
   addReview,

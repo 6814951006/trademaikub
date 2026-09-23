@@ -3,6 +3,7 @@ const authenticate = require("../middlewares/auth.middleware");
 const {
   apply,
   getMine,
+  listApplications,
   getStore,
   listProducts,
   addReview,
@@ -16,6 +17,11 @@ router.get("/store/:username", getStore);
 router.get("/products", listProducts);
 router.post("/apply", authenticate, apply);
 router.get("/mine", authenticate, getMine);
+router.get("/applications", authenticate, (req, res, next) => {
+  if (req.user.role !== "admin")
+    return res.status(403).json({ message: "Admin access required" });
+  return listApplications(req, res, next);
+});
 router.post(
   "/uploads/product-image",
   authenticate,

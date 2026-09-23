@@ -160,6 +160,82 @@ const loadMine = async () => {
   });
 };
 
+const loadApplications = async () => {
+  const status = $("#admin-status");
+  const container = $("#seller-applications");
+  status.textContent = "Loading applications...";
+  const response = await fetch(`${API_BASE_URL}/api/sellers/applications`, {
+    headers: authHeaders,
+  });
+  const applications = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    status.textContent = applications.message || "Unable to load applications.";
+    return;
+  }
+
+  container.replaceChildren();
+  $("#application-count").textContent = `${applications.length} pending`;
+  status.textContent = "";
+  if (!applications.length) {
+    const empty = document.createElement("p");
+    empty.textContent = "There are no seller applications waiting for review.";
+    container.append(empty);
+    return;
+  }
+
+  applications.forEach((application) => {
+    const card = document.createElement("article");
+    card.className = "seller-application-card";
+    const heading = document.createElement("div");
+    heading.className = "seller-application-heading";
+    const title = document.createElement("h3");
+    title.textContent = application.storeName;
+    const account = document.createElement("span");
+    account.textContent = `${application.userId?.username || "Unknown user"} · ${application.userId?.email || "No email"}`;
+    heading.append(title, account);
+
+    const details = document.createElement("dl");
+    [
+      ["Phone", application.phone],
+      ["National ID / passport", application.identityNumber],
+      ["Identity document reference", application.identityDocument],
+      ["About the store", application.description || "Not provided"],
+    ].forEach(([label, value]) => {
+      const term = document.createElement("dt");
+      term.textContent = label;
+      const detail = document.createElement("dd");
+      detail.textContent = value;
+      details.append(term, detail);
+    });
+
+    const actions = document.createElement("div");
+    actions.className = "seller-application-actions";
+    const approveButton = document.createElement("button");
+    approveButton.className = "primary-action";
+    approveButton.type = "button";
+    approveButton.textContent = "Approve seller";
+    approveButton.addEventListener("click", async () => {
+      approveButton.disabled = true;
+      status.textContent = `Approving ${application.storeName}...`;
+      const result = await fetch(
+        `${API_BASE_URL}/api/sellers/applications/${application._id}/approve`,
+        { method: "PATCH", headers: authHeaders },
+      );
+      const data = await result.json().catch(() => ({}));
+      if (!result.ok) {
+        status.textContent = data.message || "Unable to approve this seller.";
+        approveButton.disabled = false;
+        return;
+      }
+      status.textContent = `${application.storeName} is now an approved seller.`;
+      await loadApplications();
+    });
+    actions.append(approveButton);
+    card.append(heading, details, actions);
+    container.append(card);
+  });
+};
+
 $("#seller-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const body = {
@@ -270,4 +346,11 @@ $("#logout-button").addEventListener("click", () => {
   sessionStorage.clear();
   window.location.replace("./index.html");
 });
-loadMine();
+if (user.role === "admin") {
+  $("#application-panel").hidden = true;
+  $("#store-panel").hidden = true;
+  $("#admin-panel").hidden = false;
+  loadApplications();
+} else {
+  loadMine();
+}
